@@ -12,3 +12,20 @@ before_install:
 script:
   - docker run khouloudsma/docker-react npm run test -- --coverage
 
+deploy:
+  provider: elasticbeanstalk
+  #region peut dégager à partir de url de envi creer dans aws
+  region: "us-west-2"
+  #nom app creer dans aws
+  app: "docker"
+  #non d env creer dans aws
+  env: "Docker-en"
+  #utiliser S3 dans aws puis trouver ce qui a le nom de meme que region et puis clicer au dessus apres prend tout le nom
+  bucket_name: "elasticbeanstalk-us-west-2-306476627547"
+  bucket_path: "docker"
+  on:
+    branch: master
+  #creer user sur AWS puis coper leur key et les decraler dans travis-ci web brouser dans la secrion envi variable 
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRETKEY"
